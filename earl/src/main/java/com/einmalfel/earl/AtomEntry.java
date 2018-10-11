@@ -2,7 +2,6 @@ package com.einmalfel.earl;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -102,22 +101,22 @@ public class AtomEntry extends AtomCommonAttributes implements Item {
             source = AtomFeed.read(parser, 0);
             break;
           default:
-            Log.w(TAG, "Unknown tag in Atom entry " + parser.getName());
+            Logger.w(TAG, "Unknown tag in Atom entry " + parser.getName());
             Utils.skipTag(parser);
         }
       } else {
-        Log.w(TAG, "Unknown namespace in Atom item " + parser.getNamespace());
+        Logger.w(TAG, "Unknown namespace in Atom item " + parser.getNamespace());
         Utils.skipTag(parser);
       }
       Utils.finishTag(parser);
     }
 
     if (title == null) {
-      Log.w(TAG, "No title found for atom entry", new NullPointerException());
+      Logger.w(TAG, "No title found for atom entry", new NullPointerException());
       title = new AtomText(null, null, "");
     }
     if (updated == null) {
-      Log.w(TAG, "No updated found for atom entry, replaced with zero", new NullPointerException());
+      Logger.w(TAG, "No updated found for atom entry, replaced with zero", new NullPointerException());
       updated = new AtomDate(null, new Date(0));
     }
 

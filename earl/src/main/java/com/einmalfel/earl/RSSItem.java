@@ -2,7 +2,6 @@ package com.einmalfel.earl;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -81,7 +80,7 @@ public class RSSItem implements Item {
             try {
               map.put(ST.valueOf(tagName), parser.nextText());
             } catch (IllegalArgumentException ignored) {
-              Log.w(TAG, "Unknown RSS item tag " + tagName);
+              Logger.w(TAG, "Unknown RSS item tag " + tagName);
               Utils.skipTag(parser);
             }
         }
@@ -95,7 +94,7 @@ public class RSSItem implements Item {
           mediaBuilder = new MediaItem.MediaItemBuilder();
         }
         if (!mediaBuilder.parseTag(parser)) {
-          Log.w(TAG, "Unknown mrss tag on item level");
+          Logger.w(TAG, "Unknown mrss tag on item level");
           Utils.skipTag(parser);
         }
       } else if (Utils.CONTENT_NAMESPACE.equalsIgnoreCase(namespace)) {
@@ -104,7 +103,7 @@ public class RSSItem implements Item {
         }
         contentBuilder.parseTag(parser);
       } else {
-        Log.w(TAG, "Unknown namespace in RSS item " + parser.getNamespace());
+        Logger.w(TAG, "Unknown namespace in RSS item " + parser.getNamespace());
         Utils.skipTag(parser);
       }
       Utils.finishTag(parser);

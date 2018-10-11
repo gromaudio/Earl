@@ -2,7 +2,6 @@ package com.einmalfel.earl;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -33,7 +32,7 @@ public class ItunesOwner {
           eMail = parser.nextText();
           break;
         default:
-          Log.w(TAG, "Unexpected owner tag " + parser.getName());
+          Logger.w(TAG, "Unexpected owner tag " + parser.getName());
       }
       Utils.finishTag(parser);
     }

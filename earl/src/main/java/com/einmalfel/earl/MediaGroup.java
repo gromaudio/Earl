@@ -1,7 +1,6 @@
 package com.einmalfel.earl;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -28,7 +27,7 @@ public class MediaGroup extends MediaCommon {
       if (MediaContent.XML_TAG.equals(tagName)) {
         contents.add(MediaContent.read(parser));
       } else if (!builder.parseTag(parser)) {
-        Log.w(TAG, "Unexpected tag found in media:group: " + tagName);
+        Logger.w(TAG, "Unexpected tag found in media:group: " + tagName);
         Utils.skipTag(parser);
       }
       Utils.finishTag(parser);

@@ -2,7 +2,6 @@ package com.einmalfel.earl;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -39,7 +38,7 @@ public class RSSImage {
       try {
         map.put(ST.valueOf(parser.getName()), parser.nextText());
       } catch (IllegalArgumentException ignored) {
-        Log.w(TAG, "Unknown RSS image tag " + parser.getName());
+        Logger.w(TAG, "Unknown RSS image tag " + parser.getName());
         Utils.skipTag(parser);
       }
       Utils.finishTag(parser);

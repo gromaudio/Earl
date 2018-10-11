@@ -1,6 +1,5 @@
 package com.einmalfel.earl.test;
 
-import static android.support.test.InstrumentationRegistry.getContext;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 

@@ -3,7 +3,6 @@ package com.einmalfel.earl;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -130,7 +129,7 @@ public class RSSFeed implements Feed {
             try {
               map.put(ST.valueOf(tagName), parser.nextText());
             } catch (IllegalArgumentException ignored) {
-              Log.w(TAG, "Unknown RSS feed tag " + tagName);
+              Logger.w(TAG, "Unknown RSS feed tag " + tagName);
               Utils.skipTag(parser);
             }
         }
@@ -144,7 +143,7 @@ public class RSSFeed implements Feed {
           mediaBuilder = new MediaCommon.MediaCommonBuilder();
         }
         if (!mediaBuilder.parseTag(parser)) {
-          Log.w(TAG, "Unknown mrss tag on feed level");
+          Logger.w(TAG, "Unknown mrss tag on feed level");
           Utils.skipTag(parser);
         }
       } else if (Utils.CONTENT_NAMESPACE.equalsIgnoreCase(namespace)) {
@@ -153,7 +152,7 @@ public class RSSFeed implements Feed {
         }
         contentBuilder.parseTag(parser);
       } else {
-        Log.w(TAG, "Unknown RSS feed extension " + parser.getNamespace());
+        Logger.w(TAG, "Unknown RSS feed extension " + parser.getNamespace());
         Utils.skipTag(parser);
       }
       Utils.finishTag(parser);

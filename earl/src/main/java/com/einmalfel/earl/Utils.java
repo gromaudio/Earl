@@ -2,7 +2,6 @@ package com.einmalfel.earl;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.einmalfel.earl.tools.NPTParser;
 
@@ -73,7 +72,7 @@ final class Utils {
       date = parseRFC3339Date(dateString);
     }
     if (null == date) {
-      Log.w(TAG, "Malformed date " + dateString);
+      Logger.w(TAG, "Malformed date " + dateString);
     }
     return date;
   }
@@ -171,7 +170,7 @@ final class Utils {
     try {
       return (int) new NPTParser(string).parse();
     } catch (ParseException exception) {
-      Log.w(TAG, "Failed to parse media:rating time", exception);
+      Logger.w(TAG, "Failed to parse media:rating time", exception);
       return null;
     }
   }
@@ -250,7 +249,7 @@ final class Utils {
       try {
         return Integer.valueOf(string);
       } catch (NumberFormatException exception) {
-        Log.w(TAG, "Error parsing integer value '" + string + '\'', exception);
+        Logger.w(TAG, "Error parsing integer value '" + string + '\'', exception);
         return null;
       }
     }
@@ -259,13 +258,13 @@ final class Utils {
   @NonNull
   static Integer nonNullInt(@Nullable String string) {
     if (string == null) {
-      Log.w(TAG, "Unexpectedly got null string. -1 returned", new NullPointerException());
+      Logger.w(TAG, "Unexpectedly got null string. -1 returned", new NullPointerException());
       return -1;
     }
     try {
       return Integer.valueOf(string);
     } catch (NumberFormatException exception) {
-      Log.w(TAG, "Malformed integer string replaced with '-1'", exception);
+      Logger.w(TAG, "Malformed integer string replaced with '-1'", exception);
       return -1;
     }
   }
@@ -273,7 +272,7 @@ final class Utils {
   @NonNull
   static String nonNullString(@Nullable String string) {
     if (string == null) {
-      Log.w(TAG, "Unexpectedly got null string. Replaced with empty", new NullPointerException());
+      Logger.w(TAG, "Unexpectedly got null string. Replaced with empty", new NullPointerException());
       return "";
     } else {
       return string;
@@ -283,13 +282,13 @@ final class Utils {
   @Nullable
   static URL tryParseUrl(@Nullable String string) {
     if (string == null) {
-      Log.w(TAG, "Null value while parsing url", new NullPointerException());
+      Logger.w(TAG, "Null value while parsing url", new NullPointerException());
       return null;
     } else {
       try {
         return new URL(string);
       } catch (MalformedURLException exception) {
-        Log.w(TAG, "Error parsing url value '" + string + '\'', exception);
+        Logger.w(TAG, "Error parsing url value '" + string + '\'', exception);
         return null;
       }
     }
@@ -299,7 +298,7 @@ final class Utils {
   static URL nonNullUrl(@Nullable String string) {
     URL result = tryParseUrl(string);
     if (result == null) {
-      Log.w(TAG, "Malformed URL replaced with 'http://'");
+      Logger.w(TAG, "Malformed URL replaced with 'http://'");
       try {
         result = new URL("http://");
       } catch (MalformedURLException ignored) {
@@ -312,13 +311,13 @@ final class Utils {
   @Nullable
   static URI tryParseUri(@Nullable String string) {
     if (string == null) {
-      Log.w(TAG, "Null value while parsing uri", new NullPointerException());
+      Logger.w(TAG, "Null value while parsing uri", new NullPointerException());
       return null;
     } else {
       try {
         return new URI(string);
       } catch (URISyntaxException exception) {
-        Log.w(TAG, "Error parsing uri value '" + string + '\'', exception);
+        Logger.w(TAG, "Error parsing uri value '" + string + '\'', exception);
         return null;
       }
     }
@@ -328,7 +327,7 @@ final class Utils {
   static URI nonNullUri(@Nullable String string) {
     URI result = tryParseUri(string);
     if (result == null) {
-      Log.w(TAG, "Malformed URI replaced with 'http://'");
+      Logger.w(TAG, "Malformed URI replaced with 'http://'");
       try {
         result = new URI("http:///");
       } catch (URISyntaxException ignored) {

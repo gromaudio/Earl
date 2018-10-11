@@ -2,7 +2,6 @@ package com.einmalfel.earl;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -109,22 +108,22 @@ public class AtomFeed extends AtomCommonAttributes implements Feed {
             updated = AtomDate.read(parser);
             break;
           default:
-            Log.w(TAG, "Unknown Atom feed tag " + parser.getName());
+            Logger.w(TAG, "Unknown Atom feed tag " + parser.getName());
             Utils.skipTag(parser);
         }
       } else {
-        Log.w(TAG, "Unknown Atom feed extension " + parser.getNamespace());
+        Logger.w(TAG, "Unknown Atom feed extension " + parser.getNamespace());
         Utils.skipTag(parser);
       }
       Utils.finishTag(parser);
     }
 
     if (title == null) {
-      Log.w(TAG, "Missing title tag in atom feed, replacing with empty string");
+      Logger.w(TAG, "Missing title tag in atom feed, replacing with empty string");
       title = new AtomText(null, null, "");
     }
     if (updated == null) {
-      Log.w(TAG, "Missing title tag in atom feed, replacing with empty string");
+      Logger.w(TAG, "Missing title tag in atom feed, replacing with empty string");
       updated = new AtomDate(null, new Date(0));
     }
     return new AtomFeed(

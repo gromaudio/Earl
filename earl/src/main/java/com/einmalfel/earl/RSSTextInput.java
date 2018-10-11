@@ -1,7 +1,6 @@
 package com.einmalfel.earl;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -34,7 +33,7 @@ public class RSSTextInput {
       try {
         map.put(ST.valueOf(parser.getName()), parser.nextText());
       } catch (IllegalArgumentException ignored) {
-        Log.w(TAG, "Unknown RSS TextInput tag " + parser.getName());
+        Logger.w(TAG, "Unknown RSS TextInput tag " + parser.getName());
         Utils.skipTag(parser);
       }
       Utils.finishTag(parser);

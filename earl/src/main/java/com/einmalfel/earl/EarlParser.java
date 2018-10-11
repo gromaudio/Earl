@@ -61,4 +61,8 @@ public final class EarlParser {
     }
     throw new DataFormatException("No syndication feeds found in given stream");
   }
+
+  public void setLogging(boolean enabled) {
+    Logger.setLogging(enabled);
+  }
 }

@@ -2,7 +2,6 @@ package com.einmalfel.earl;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -40,11 +39,11 @@ public class AtomPerson extends AtomCommonAttributes {
             email = Utils.nonNullString(parser.nextText());
             break;
           default:
-            Log.w(TAG, "Unexpected tag " + parser.getName() + " in atom person item");
+            Logger.w(TAG, "Unexpected tag " + parser.getName() + " in atom person item");
             Utils.skipTag(parser);
         }
       } else {
-        Log.w(TAG, "Unknown namespace in Atom person item " + parser.getNamespace());
+        Logger.w(TAG, "Unknown namespace in Atom person item " + parser.getNamespace());
         Utils.skipTag(parser);
       }
     }

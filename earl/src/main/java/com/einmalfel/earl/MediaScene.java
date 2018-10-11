@@ -2,7 +2,6 @@ package com.einmalfel.earl;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -45,7 +44,7 @@ public class MediaScene {
           sceneEndTime = Utils.parseMediaRssTime(parser.nextText());
           break;
         default:
-          Log.w(TAG, "Unexpected tag inside media:scene: " + parser.getName());
+          Logger.w(TAG, "Unexpected tag inside media:scene: " + parser.getName());
           Utils.skipTag(parser);
       }
       Utils.finishTag(parser);

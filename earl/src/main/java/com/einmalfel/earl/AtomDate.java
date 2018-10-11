@@ -2,7 +2,6 @@ package com.einmalfel.earl;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -21,7 +20,7 @@ public class AtomDate extends AtomCommonAttributes {
     AtomCommonAttributes atomCommonAttributes = new AtomCommonAttributes(parser);
     Date date = Utils.parseDate(parser.nextText());
     if (date == null) {
-      Log.w(TAG, "Replacing date with 0");
+      Logger.w(TAG, "Replacing date with 0");
       date = new Date(0);
     }
     return new AtomDate(atomCommonAttributes, date);

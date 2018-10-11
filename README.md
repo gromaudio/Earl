@@ -8,9 +8,25 @@
  * Runs on android versions starting from Android 2.2 (API 8)
 
 ### Usage
-Earl is available on `jcenter`. Just add a dependency in your `build.gradle` file:
+Earl is available on JitPack.
 
-`compile 'com.einmalfel:earl:1.2.0'`
+Step 1. Add the JitPack repository to your build file.
+```
+allprojects {
+    repositories {
+		...
+		maven { url 'https://jitpack.io' }
+	}
+}
+```
+
+Step 2. Add the dependency
+
+```
+dependencies {
+    implementation 'com.github.gromaudio:Earl:1.3.0'
+}
+```
 
 Simple example:
 ```

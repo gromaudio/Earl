@@ -27,14 +27,6 @@ final class Utils {
   static final String CONTENT_NAMESPACE = "http://purl.org/rss/1.0/modules/content/";
 
   private static final String TAG = "Earl.Utils";
-  private static final DateFormat rfc822DateTimeFormat = new SimpleDateFormat(
-      "EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
-  private static final DateFormat iso8601DateTimeFormat = new SimpleDateFormat(
-      "yyyy-MM-dd'T'HH:mm:ss.SSSz", Locale.ENGLISH);
-  private static final DateFormat RFC3339Tz = new SimpleDateFormat(
-      "yyyy-MM-dd'T'HH:mm:ssZ", Locale.ENGLISH);
-  private static final DateFormat RFC3339TzMs = new SimpleDateFormat(
-      "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ", Locale.ENGLISH);
   private static final DateFormat[] itunesDurationFormats = {
       new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH),
       new SimpleDateFormat("H:mm:ss", Locale.ENGLISH),
@@ -43,8 +35,6 @@ final class Utils {
       };
 
   static {
-    RFC3339TzMs.setLenient(true);
-
     TimeZone utc = TimeZone.getTimeZone("UTC");
     for (DateFormat format : itunesDurationFormats) {
       format.setTimeZone(utc);
@@ -53,117 +43,6 @@ final class Utils {
 
 
   private Utils() {}
-
-  /**
-   * One single function to parse all types of date strings. Due to the non-standard nature of
-   * users of the Internet, let alone developers, standards are easily broken by developers and
-   * we have to try our best at figuring out what those dates are.
-   *
-   * @param dateString date (as string) to parse
-   * @return parsed date on success, NULL otherwise
-   */
-  @Nullable
-  static Date parseDate(@NonNull String dateString) {
-    Date date = parseRFC822Date(dateString);
-    if (null == date) {
-      date = parseISO8601Date(dateString);
-    }
-    if (null == date) {
-      date = parseRFC3339Date(dateString);
-    }
-    if (null == date) {
-      Logger.w(TAG, "Malformed date " + dateString);
-    }
-    return date;
-  }
-
-  @Nullable
-  private static Date parseRFC822Date(@NonNull String dateString) {
-    try {
-      return rfc822DateTimeFormat.parse(dateString);
-    } catch (ParseException ignored) {
-      return null;
-    }
-  }
-
-  @Nullable
-  private static Date parseISO8601Date(@NonNull String dateString) {
-    try {
-      return iso8601DateTimeFormat.parse(patchISO8601Date(dateString));
-    } catch (ParseException ignored) {
-      return null;
-    }
-  }
-
-  /**
-   * Patches the specified date due to non-standardization when it comes to ISO 8601. In
-   * particular, this will normalize the string so that our {@link DateFormat} could work properly
-   * and parse the date. We need this to support pre-1.7 Java versions.
-   *
-   * The function supports these formats:
-   *
-   * 2016-01-01T01:01:01.001Z
-   * 2016-01-01T0101:01.001Z
-   * 2016-01-01T01:01:01.001+01:01
-   * 2016-01-01T0101:01.001+01:01
-   *
-   * @param dateString date (as string) to parse
-   * @return patched date
-   */
-  @NonNull
-  private static String patchISO8601Date(@NonNull String dateString) {
-    final int dateLength = dateString.length();
-    if (19 < dateLength) {
-      // If zero time, add TZ indicator.
-      if (dateString.endsWith("Z")) {
-        dateString = dateString.substring(0, dateLength - 1) + "GMT-00:00";
-      } else if (!dateString.substring(0, dateLength - 9).startsWith("GMT")) {
-        // Prefix "+01:00" with "GMT" so it the formatter can work properly.
-        String preTimeZone = dateString.substring(0, dateLength - 6);
-        String timeZone = dateString.substring(dateLength - 6, dateLength);
-        dateString = preTimeZone + "GMT" + timeZone;
-      }
-
-      // Detect if there a colon missing between hour and minute.
-      if (':' != dateString.charAt(13)) {
-        // Insert a colon between hour and minute.
-        dateString = dateString.substring(0, 13) + ":" + dateString.substring(13);
-      }
-    }
-    return dateString;
-  }
-
-  /**
-   * based on: http://cokere.com/RFC3339Date.txt
-   */
-  @Nullable
-  private static Date parseRFC3339Date(@NonNull String string) {
-    try {
-      //if there is no time zone, we don't need to do any special parsing.
-      if (string.endsWith("Z")) {
-        string = string.replace("Z", "+00:00");
-      } else {
-        char timezoneSign = string.contains("+") ? '+' : '-';
-
-        //step one, split off the timezone.
-        String firstPart = string.substring(0, string.lastIndexOf(timezoneSign));
-        String secondPart = string.substring(string.lastIndexOf(timezoneSign));
-
-        //step two, remove the colon from the timezone offset
-        secondPart = secondPart.substring(0, secondPart.indexOf(':')) + secondPart
-            .substring(secondPart.indexOf(':') + 1);
-        string = firstPart + secondPart;
-      }
-
-      try {
-        return RFC3339Tz.parse(string);
-      } catch (ParseException ignored) { // try again with optional decimals
-        return RFC3339TzMs.parse(string);
-      }
-    } catch (ParseException ignored) {
-      return null;
-    }
-  }
 
   @Nullable
   static Integer parseRFC2326NPT(@NonNull String string) {

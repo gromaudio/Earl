@@ -8,6 +8,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Locale;
 
 public class AtomDate extends AtomCommonAttributes {
   private static final String TAG = "Earl.AtomDate";
@@ -18,7 +19,7 @@ public class AtomDate extends AtomCommonAttributes {
   @NonNull
   static AtomDate read(XmlPullParser parser) throws XmlPullParserException, IOException {
     AtomCommonAttributes atomCommonAttributes = new AtomCommonAttributes(parser);
-    Date date = Utils.parseDate(parser.nextText());
+    Date date = DateParser.parseDate(parser.nextText());
     if (date == null) {
       Logger.w(TAG, "Replacing date with 0");
       date = new Date(0);
